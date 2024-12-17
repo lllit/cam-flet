@@ -1,15 +1,10 @@
-#from flet import *
 import cv2
 import time
 import os
 import base64
-
-
-cam_running = True
-
-
 from flet import *
 
+cam_running = True
 
 def main(page: Page):
     page.scroll = ScrollMode.ADAPTIVE
@@ -29,13 +24,8 @@ def main(page: Page):
         o = ph.open_app_settings()
         page.add(Text(f"App Settings: {o}"))
 
-
-    image_default_path = base64.b64encode(open("./assets/camara.png", 'rb').read()).decode("utf-8")
-
-
     myimage = Image(
         expand=True,
-        src_base64=image_default_path,
         src=False,
         fit=ImageFit.COVER
     )
@@ -43,11 +33,8 @@ def main(page: Page):
     def stop_camera(e):
         global cam_running
         cam_running = False
-        # if myimage and image_default_path:
-        #     myimage.src_base64 = image_default_path
-        #     print("Camara stop")
-        myimage.src_base64 = image_default_path  
         page.update()
+
     def remove_all_pic():
         folder_path = "fotos/"
         files = os.listdir(folder_path)
@@ -55,9 +42,8 @@ def main(page: Page):
             file_path = os.path.join(folder_path, file)
             if os.path.isfile(file_path):
                 os.remove(file_path)
-                print("Archivo eliminado con exito")
+                print("Archivo eliminado con éxito")
         page.update()
-
 
     # Tomar foto
     def take_pic(e):
@@ -77,7 +63,6 @@ def main(page: Page):
                     myimage.src_base64 = frame_base64
                     page.update()
 
-
                 key = cv2.waitKey(1)
                 if key == ord("q"):
                     break
@@ -90,26 +75,24 @@ def main(page: Page):
                     break
         
             page.update()
+            
         except Exception as e:
             print(f"Error: {e}")
 
-    # Abrir la camara
+    # Abrir la cámara
     def scann_qr(e):
-        image_default_path = base64.b64encode(open("./assets/camara.png", 'rb').read()).decode("utf-8")
-
+        pass
         
     cam_view = Column(
         controls=[
             Text("Webcam", size=30, weight=FontWeight.BOLD),
             ElevatedButton("Tomar foto", bgcolor=Colors.BLUE_400, color=Colors.WHITE, on_click=take_pic),
-            # ElevatedButton("Escann", bgcolor=Colors.BLUE_500, color=Colors.WHITE, on_click=scann_qr),
-            ElevatedButton("Cerrar Camara", bgcolor=Colors.BLUE_900, color=Colors.WHITE, on_click=stop_camera),
+            ElevatedButton("Cerrar Cámara", bgcolor=Colors.BLUE_900, color=Colors.WHITE, on_click=stop_camera),
             myimage
         ]
     )
 
     page.add(
-
         cam_view,
         OutlinedButton(
             "Check Cam Permission",
@@ -117,7 +100,7 @@ def main(page: Page):
             on_click=check_permission,
         ),
         OutlinedButton(
-            "Request Camara Permission",
+            "Request Cámara Permission",
             data=PermissionType.CAMERA,
             on_click=request_permission,
         ),
@@ -127,6 +110,4 @@ def main(page: Page):
         ),
     )
 
-
 app(target=main)
-
