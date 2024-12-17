@@ -8,21 +8,6 @@ cam_running = True
 
 def main(page: Page):
     page.scroll = ScrollMode.ADAPTIVE
-    page.appbar = AppBar(title=Text("PermissionHandler Tests"))
-    ph = PermissionHandler()
-    page.overlay.append(ph)
-
-    def check_permission(e):
-        o = ph.check_permission(e.control.data)
-        page.add(Text(f"Checked {e.control.data.name}: {o}"))
-
-    def request_permission(e):
-        o = ph.request_permission(e.control.data)
-        page.add(Text(f"Requested {e.control.data.name}: {o}"))
-
-    def open_app_settings(e):
-        o = ph.open_app_settings()
-        page.add(Text(f"App Settings: {o}"))
 
     myimage = Image(
         expand=True,
@@ -33,6 +18,7 @@ def main(page: Page):
     def stop_camera(e):
         global cam_running
         cam_running = False
+        myimage.src_base64 = ""
         page.update()
 
     def remove_all_pic():
@@ -75,7 +61,7 @@ def main(page: Page):
                     break
         
             page.update()
-            
+
         except Exception as e:
             print(f"Error: {e}")
 
@@ -94,20 +80,6 @@ def main(page: Page):
 
     page.add(
         cam_view,
-        OutlinedButton(
-            "Check Cam Permission",
-            data=PermissionType.CAMERA,
-            on_click=check_permission,
-        ),
-        OutlinedButton(
-            "Request Cámara Permission",
-            data=PermissionType.CAMERA,
-            on_click=request_permission,
-        ),
-        OutlinedButton(
-            "Open App Settings",
-            on_click=open_app_settings,
-        ),
     )
 
 app(target=main)
