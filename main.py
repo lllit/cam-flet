@@ -128,5 +128,5 @@ def main(page: Page):
     )
 
 
-app(target=main, assets_dir="assets", view=WEB_BROWSER)
+app(target=main, assets_dir="assets")
 
