@@ -1,0 +1,25 @@
+[tool.flet]
+name = "Gestor de Entradas"
+version = "0.1.0"
+description = "Aplicación para registrar y verificar entradas de una fiesta"
+authors = ["Matias P. <lit.io30303@gmail.ocm>"]
+
+[tool.flet.android.permission]
+"android.permission.CAMERA" = true
+"android.permission.INTERNET" = true
+"android.permission.ACCESS_NETWORK_STATE" = true
+
+
+[tool.flet.android.feature]
+"android.hardware.camera" = true
+"android.hardware.camera.autofocus" = true
+
+
+[tool.flet.splash]
+android = true
+
+[project]
+dependencies = [
+    "flet",
+    "opencv-python==4.10.0.84"
+]
